@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"bulletinBoard/pkg/render"
+	"jobBoard/pkg/render"
 	"net/http"
 )
 

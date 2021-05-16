@@ -1,7 +1,7 @@
 package render
 
 import (
-	"bulletinBoard/pkg/config"
+	"jobBoard/pkg/config"
 	"bytes"
 	"html/template"
 	"log"

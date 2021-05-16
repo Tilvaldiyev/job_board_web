@@ -1,1 +1,1 @@
-module "bulletinBoard"
+module "jobBoard"

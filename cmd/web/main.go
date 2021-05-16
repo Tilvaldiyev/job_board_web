@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bulletinBoard/pkg/config"
-	"bulletinBoard/pkg/handlers"
-	"bulletinBoard/pkg/render"
+	"jobBoard/pkg/config"
+	"jobBoard/pkg/handlers"
+	"jobBoard/pkg/render"
 	"log"
 	"net/http"
 )
