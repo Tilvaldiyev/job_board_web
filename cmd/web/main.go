@@ -17,6 +17,7 @@ func main() {
 		log.Fatal("Cannot create template cache")
 	}
 
+	// Set to global config created cache
 	app.TemplateCache = tc
 
 	render.NewTemplates(&app)
