@@ -20,8 +20,14 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
-	// Get the template cache from the app config
-	tc := app.TemplateCache
+
+	var tc map[string]*template.Template
+	if app.UseCache {
+		// Get the template cache from the app config
+		tc = app.TemplateCache
+	} else {
+		tc, _ = CreateTemplateCache()
+	}
 
 	t, ok := tc[tmpl] // Get cached template
 	if !ok {
@@ -30,6 +36,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
+	// Save it in buffer
 	_ = t.Execute(buf, nil)
 
 	_, err := buf.WriteTo(w) // Get response

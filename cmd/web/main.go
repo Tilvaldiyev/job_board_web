@@ -19,10 +19,15 @@ func main() {
 
 	// Set to global config created cache
 	app.TemplateCache = tc
+	app.UseCache = false
+
+	repo := handlers.NewRepo(&app)
+	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
 
-	http.HandleFunc("/", handlers.HomePage)
+	http.HandleFunc("/", handlers.Repo.HomePage)
+	http.HandleFunc("/about", handlers.Repo.AboutPage)
 
 	http.ListenAndServe(":8080", nil)
 
