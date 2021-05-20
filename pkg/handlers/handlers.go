@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"jobBoard/pkg/config"
+	"jobBoard/pkg/models"
 	"jobBoard/pkg/render"
 	"net/http"
 )
@@ -28,10 +29,16 @@ func NewHandlers(r *Repository) {
 
 // Home is the home page handler
 func (repo *Repository) HomePage(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.tmpl")
+	// perform some logic
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello"
+
+	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
 
 // About is the about page handler
 func (repo *Repository) AboutPage(w http.ResponseWriter, r *http.Request) {
-
+	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{})
 }

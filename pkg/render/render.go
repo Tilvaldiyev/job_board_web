@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"html/template"
 	"jobBoard/pkg/config"
+	"jobBoard/pkg/models"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -19,7 +20,12 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData (td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
+// RemderTemplate renders templates using html/template
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -36,8 +42,10 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
+	td = AddDefaultData(td)
+
 	// Save it in buffer
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w) // Get response
 	if err != nil {
