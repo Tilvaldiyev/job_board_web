@@ -8,6 +8,10 @@ import (
 	"net/http"
 )
 
+const (
+	portNumber = ":8080"
+)
+
 func main() {
 
 	var app config.AppConfig
@@ -26,10 +30,15 @@ func main() {
 
 	render.NewTemplates(&app)
 
-	http.HandleFunc("/", handlers.Repo.HomePage)
-	http.HandleFunc("/about", handlers.Repo.AboutPage)
+	srv := &http.Server{
+		Addr: portNumber,
+		Handler: routes(&app),
+	}
 
-	http.ListenAndServe(":8080", nil)
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
