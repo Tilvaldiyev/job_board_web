@@ -33,12 +33,12 @@ func (repo *Repository) HomePage(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
 	stringMap["test"] = "Hello"
 
-	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{
+	render.RenderTemplate(w, "index.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
 
 // About is the about page handler
 func (repo *Repository) AboutPage(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{})
+	//render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{})
 }
