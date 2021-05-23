@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/alexedwards/scs/v2"
-	"jobBoard/pkg/config"
-	"jobBoard/pkg/handlers"
-	"jobBoard/pkg/render"
+	"jobBoard/internal/config"
+	"jobBoard/internal/handlers"
+	"jobBoard/internal/render"
 	"log"
 	"net/http"
 	"time"
@@ -44,7 +44,7 @@ func main() {
 	render.NewTemplates(&app)
 
 	srv := &http.Server{
-		Addr: portNumber,
+		Addr:    portNumber,
 		Handler: routes(&app),
 	}
 
@@ -54,4 +54,3 @@ func main() {
 	}
 
 }
-

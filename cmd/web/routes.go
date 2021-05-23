@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"jobBoard/pkg/config"
-	"jobBoard/pkg/handlers"
+	"jobBoard/internal/config"
+	"jobBoard/internal/handlers"
 	"net/http"
 )
 

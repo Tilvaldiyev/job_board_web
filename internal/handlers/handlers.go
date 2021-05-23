@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"jobBoard/pkg/config"
-	"jobBoard/pkg/models"
-	"jobBoard/pkg/render"
+	"jobBoard/internal/config"
+	"jobBoard/internal/models"
+	"jobBoard/internal/render"
 	"net/http"
 )
 

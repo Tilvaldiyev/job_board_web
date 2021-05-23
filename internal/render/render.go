@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"github.com/justinas/nosurf"
 	"html/template"
-	"jobBoard/pkg/config"
-	"jobBoard/pkg/models"
+	"jobBoard/internal/config"
+	"jobBoard/internal/models"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -21,7 +21,7 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData (td *models.TemplateData, r *http.Request) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	td.CSRFToken = nosurf.Token(r)
 	return td
 }
