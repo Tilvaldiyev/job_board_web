@@ -86,21 +86,22 @@
                     </div>
                     <div class="apply_job_form white-bg">
                         <h4>Apply for the job</h4>
-                        <form action="#">
+                        <form action="/job_details" method="post" enctype="multipart/form-data" http-equiv="content-type">
+                            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input_field">
-                                        <input type="text" placeholder="Your name">
+                                        <input type="text" placeholder="Your name" name="name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input_field">
-                                        <input type="text" placeholder="Email">
+                                        <input type="text" placeholder="Email" name="email">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input_field">
-                                        <input type="text" placeholder="Website/Portfolio link">
+                                        <input type="text" placeholder="Website/Portfolio link" name="website">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -111,7 +112,7 @@
                                             </button>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile03"
+                                            <input type="file" name="cv_file" class="custom-file-input" id="inputGroupFile03"
                                                    aria-describedby="inputGroupFileAddon03">
                                             <label class="custom-file-label" for="inputGroupFile03">Upload CV</label>
                                         </div>
@@ -119,7 +120,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input_field">
-                                        <textarea name="#" id="" cols="30" rows="10"
+                                        <textarea name="coverletter" id="" cols="30" rows="10"
                                                   placeholder="Coverletter"></textarea>
                                     </div>
                                 </div>

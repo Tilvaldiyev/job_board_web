@@ -21,6 +21,7 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/blog", handlers.Repo.BlogPage)
 	mux.Get("/contact", handlers.Repo.ContactPage)
 	mux.Get("/job_details", handlers.Repo.JobDetailsPage)
+	mux.Post("/job_details", handlers.Repo.ApplyJob)
 	mux.Get("/single_blog", handlers.Repo.SingleBlogPage)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
