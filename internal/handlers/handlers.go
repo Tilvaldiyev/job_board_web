@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"fmt"
+	"io"
 	"jobBoard/internal/config"
+	"jobBoard/internal/forms"
 	"jobBoard/internal/models"
 	"jobBoard/internal/render"
 	"net/http"
+	"os"
 )
 
 // Repo the repository used by the handlers
@@ -61,7 +64,9 @@ func (repo *Repository) ContactPage(w http.ResponseWriter, r *http.Request) {
 
 // JobDetailsPage is the job description page handler
 func (repo *Repository) JobDetailsPage(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "job_details.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "job_details.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
 }
 
 // ApplyJob is the job description page handler
@@ -69,10 +74,24 @@ func (repo *Repository) ApplyJob(w http.ResponseWriter, r *http.Request) {
 	name := r.Form.Get("name")
 	email := r.Form.Get("email")
 	website := r.Form.Get("website")
-	file_cv := r.Form.Get("file_cv")
 	coverletter := r.Form.Get("coverletter")
-	fmt.Println(name, email, website, file_cv, coverletter)
-	//w.Write([]byte("Posted"))
+
+	r.ParseMultipartForm(32 << 20)
+	file, handler, err := r.FormFile("cv_file")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+
+	f, err := os.OpenFile("/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+	io.Copy(f, file)
+	fmt.Println(name, email, website, coverletter)
 }
 
 // SingleBlogPage is the single blog page handler
