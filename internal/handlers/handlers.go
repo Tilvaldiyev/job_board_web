@@ -7,6 +7,7 @@ import (
 	"jobBoard/internal/forms"
 	"jobBoard/internal/models"
 	"jobBoard/internal/render"
+	"log"
 	"net/http"
 	"os"
 )
@@ -71,12 +72,12 @@ func (repo *Repository) JobDetailsPage(w http.ResponseWriter, r *http.Request) {
 
 // ApplyJob is the job description page handler
 func (repo *Repository) ApplyJob(w http.ResponseWriter, r *http.Request) {
-	name := r.Form.Get("name")
-	email := r.Form.Get("email")
-	website := r.Form.Get("website")
-	coverletter := r.Form.Get("coverletter")
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
-	r.ParseMultipartForm(32 << 20)
 	file, handler, err := r.FormFile("cv_file")
 	if err != nil {
 		fmt.Println(err)
@@ -90,8 +91,33 @@ func (repo *Repository) ApplyJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer f.Close()
+
+	applyJob := models.ApplyJob{
+		FirstName: r.Form.Get("name"),
+		Email: r.Form.Get("email"),
+		WebsiteLink: r.Form.Get("website"),
+		Coverletter: r.Form.Get("coverletter"),
+		Portfolio: f,
+	}
+
+	form := forms.New(r.PostForm)
+
+	form.Has("name", r)
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["applyJob"] = applyJob
+
+		render.RenderTemplate(w, r, "job_details.page.tmpl", &models.TemplateData{
+			Form: form,
+			Data: data,
+		})
+		return
+	}
+
 	io.Copy(f, file)
-	fmt.Println(name, email, website, coverletter)
+	fmt.Println(applyJob.FirstName)
+
 }
 
 // SingleBlogPage is the single blog page handler

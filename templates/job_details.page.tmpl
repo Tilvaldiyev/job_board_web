@@ -91,7 +91,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input_field">
-                                        <input type="text" placeholder="Your name" name="name">
+                                        <input type="text" class=" {{with .Form.Errors.Get "name"}} is-invalid {{end}}" placeholder="Your name" name="name">
+                                        {{with .Form.Errors.Get "name"}}
+                                            <label class="text-danger">{{ . }}</label>
+                                        {{end}}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
