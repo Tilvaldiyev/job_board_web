@@ -2,14 +2,12 @@ package handlers
 
 import (
 	"fmt"
-	"io"
 	"jobBoard/internal/config"
 	"jobBoard/internal/forms"
 	"jobBoard/internal/models"
 	"jobBoard/internal/render"
 	"log"
 	"net/http"
-	"os"
 )
 
 // Repo the repository used by the handlers
@@ -65,8 +63,13 @@ func (repo *Repository) ContactPage(w http.ResponseWriter, r *http.Request) {
 
 // JobDetailsPage is the job description page handler
 func (repo *Repository) JobDetailsPage(w http.ResponseWriter, r *http.Request) {
+	var emptyApplyJob models.ApplyJob
+	data := make(map[string]interface{})
+	data["applyJob"] = emptyApplyJob
+
 	render.RenderTemplate(w, r, "job_details.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
+		Data: data,
 	})
 }
 
@@ -78,31 +81,32 @@ func (repo *Repository) ApplyJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, handler, err := r.FormFile("cv_file")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer file.Close()
+	//file, handler, err := r.FormFile("cv_file")
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//defer file.Close()
 
-	f, err := os.OpenFile("/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer f.Close()
+	//f, err := os.OpenFile("/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//defer f.Close()
 
 	applyJob := models.ApplyJob{
 		FirstName: r.Form.Get("name"),
 		Email: r.Form.Get("email"),
 		WebsiteLink: r.Form.Get("website"),
 		Coverletter: r.Form.Get("coverletter"),
-		Portfolio: f,
+		//Portfolio: f,
 	}
 
 	form := forms.New(r.PostForm)
 
-	form.Has("name", r)
+	form.Required("name", "email", "website")
+	form.MinLength("name", 3, r)
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
@@ -115,7 +119,7 @@ func (repo *Repository) ApplyJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	io.Copy(f, file)
+	//io.Copy(f, file)
 	fmt.Println(applyJob.FirstName)
 
 }

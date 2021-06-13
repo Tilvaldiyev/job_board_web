@@ -86,12 +86,13 @@
                     </div>
                     <div class="apply_job_form white-bg">
                         <h4>Apply for the job</h4>
+                        {{$app := index .Data "applyJob"}}
                         <form action="/job_details" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input_field">
-                                        <input type="text" class=" {{with .Form.Errors.Get "name"}} is-invalid {{end}}" placeholder="Your name" name="name">
+                                        <input type="text" class=" {{with .Form.Errors.Get "name"}} is-invalid {{end}}" placeholder="Your name" name="name" value="{{$app.FirstName}}">
                                         {{with .Form.Errors.Get "name"}}
                                             <label class="text-danger">{{ . }}</label>
                                         {{end}}
@@ -99,12 +100,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input_field">
-                                        <input type="text" placeholder="Email" name="email">
+                                        <input type="text" placeholder="Email" name="email" value="{{$app.Email}}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input_field">
-                                        <input type="text" placeholder="Website/Portfolio link" name="website">
+                                        <input type="text" placeholder="Website/Portfolio link" name="website" value="{{$app.WebsiteLink}}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -124,7 +125,7 @@
                                 <div class="col-md-12">
                                     <div class="input_field">
                                         <textarea name="coverletter" id="" cols="30" rows="10"
-                                                  placeholder="Coverletter"></textarea>
+                                                  placeholder="Coverletter">{{$app.Coverletter}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
