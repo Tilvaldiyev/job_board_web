@@ -107,6 +107,7 @@ func (repo *Repository) ApplyJob(w http.ResponseWriter, r *http.Request) {
 
 	form.Required("name", "email", "website")
 	form.MinLength("name", 3, r)
+	form.IsEmail("email")
 
 	if !form.Valid() {
 		data := make(map[string]interface{})

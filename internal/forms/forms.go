@@ -2,6 +2,7 @@ package forms
 
 import (
 	"fmt"
+	"github.com/asaskevich/govalidator"
 	"net/http"
 	"net/url"
 	"strings"
@@ -17,7 +18,7 @@ type Form struct {
 func New(data url.Values) *Form {
 	return &Form{
 		data,
-		errors(map[string][]string{}),
+		map[string][]string{},
 	}
 }
 
@@ -56,4 +57,10 @@ func (f *Form) MinLength(field string, length int, r *http.Request) bool {
 	}
 
 	return true
+}
+
+func (f *Form) IsEmail(field string) {
+	if !govalidator.IsEmail(f.Get(field)) {
+		f.Errors.Add(field, fmt.Sprintf("Invalid email address"))
+	}
 }
